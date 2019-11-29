@@ -30,6 +30,6 @@ def add_v(d):
 
 # k = np.array([1, 3])
 # p = np.array([17, 6])
-
+print('mm')
 
 print(add_v(norm(data)))
