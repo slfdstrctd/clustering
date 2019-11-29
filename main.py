@@ -28,8 +28,5 @@ def add_v(d):
         for k in j.iteritems():
             print(k)
 
-# k = np.array([1, 3])
-# p = np.array([17, 6])
-print('mm')
 
 print(add_v(norm(data)))
