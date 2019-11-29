@@ -4,18 +4,19 @@ import numpy as np
 data = pd.read_csv('data.csv', index_col='id')
 
 
-def inf_div(a):
-    n = np.sum(a)
+def inf_div(u):
+    n = u['count']  # count
+    u = u.drop('count')
     t = 0
-
-    for i in a:
-        t += i * np.log(i)
-    return n * np.log(n) - t
+    for i in u:
+        if i != n and i != 0:
+            t += n * np.log(n) - i * np.log(i) - (n - i) * np.log(n - i)
+    return t
 
 
 def inf_gain(a, b):
     c = a + b
-    return np.round(inf_div(c) - inf_div(a) - inf_div(b))
+    return inf_div(c) - inf_div(a) - inf_div(b)
 
 
 def norm(x):
@@ -23,10 +24,27 @@ def norm(x):
 
 
 def add_v(d):
-    a = []
+    arr = []
     for i, j in d.iterrows():
-        for k in j.iteritems():
-            print(k)
+        q = int(''.join(map(str, j))[::-1], 2)
+        arr.append(q)
+
+    data['res'] = arr
 
 
-print(add_v(norm(data)))
+data = norm(data).apply(np.int64)
+
+add_v(data)
+
+aa = []
+sum_aa = []
+
+for (method, group) in data.groupby('res'):
+    group = group.drop('res', axis=1)
+    summ = np.sum(group, axis=0)
+    summ['count'] = len(group.index)
+    sum_aa.append(summ)
+    aa.append(group)
+print(sum_aa)
+
+print(inf_gain(sum_aa[0], sum_aa[5]))
