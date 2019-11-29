@@ -22,11 +22,13 @@ def norm(x):
     return np.sign(x - np.mean(x, axis=0)).add(1).divide(2)
 
 
-def add_v(d):
-    a = []
-    for i, j in d.iterrows():
-        for k in j.iteritems():
-            print(k)
-
-
-print(add_v(norm(data)))
+# #def add_v(d):
+#     a = []
+#     for i, j in d.iterrows():
+#         for k in j.iteritems():
+#             print(k)
+data = norm(data)
+print(data)
+data = data.apply(np.int64)
+print(data)
+#print(add_v(norm(data)))
